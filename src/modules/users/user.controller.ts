@@ -10,7 +10,7 @@ const createUser = async(req: Request, res: Response) =>{
 //console.log(addUserDataDB);
 
 
-        res.status(200).json({
+        res.status(201).json({
             success : true,
             message : "User Created Successfully!!",
             data : result.rows[0]

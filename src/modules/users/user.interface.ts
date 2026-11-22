@@ -3,7 +3,9 @@ export interface IUser {
     email: string;
     password: string;
     phone: string;
-    age?: number | null
+    age?: number | null;
+    is_active: boolean;
+    role?:string
 }
 
 export interface updateUser {

@@ -18,6 +18,8 @@ export const userTableDB = async() =>{
             password VARCHAR(255) NOT NULL,
             phone VARCHAR(20),
             age INTEGER,
+            is_active BOOLEAN DEFAULT true,
+            role VARCHAR(20) DEFAULT 'user',
             created_at TIMESTAMP DEFAULT now(),
             updated_at TIMESTAMP DEFAULT now()
         );

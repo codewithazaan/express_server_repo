@@ -8,7 +8,7 @@ const router = Router();
 router.post("/", userController.createUser)
 
 //!All Users Information get from Database by post man START
-router.get('/', auth, userController.getAllUsers)
+router.get('/', auth("admin","agent"), userController.getAllUsers)
 //!All Users Information get from Database by post man END
 
 //?Single User Information get from Database by post man START
