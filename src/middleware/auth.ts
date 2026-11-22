@@ -2,12 +2,19 @@ import type { NextFunction, Request, Response } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import config from "../config";
 import { pool } from "../db";
+import type { userAuthType } from "../modules/auth/auth.interface";
+import type { Role } from "../types";
 
-const auth = (...roles : any)=>{
+
+
+
+const auth = (...roles : Role[])=>{
 
 
     return async(req: Request, res: Response, next: NextFunction ) =>{
-    console.log("This Is Protected Route");
+   
+    try {
+         console.log("This Is Protected Route");
     console.log("Roles:", roles);
     
 
@@ -22,7 +29,7 @@ const auth = (...roles : any)=>{
     const token = req.headers.authorization;
 
     if(!token){
-        res.status(401).json({
+       return res.status(401).json({
             success: false,
             message: "Unauthorized Access!!!"
         })
@@ -37,14 +44,14 @@ const auth = (...roles : any)=>{
         `,[decode.email])
 
         if(user.rowCount === 0){
-            res.status(404).json({
+            return res.status(404).json({
                 success: false,
                 message: "User Not Found"
             })
         }
 
-        if(!user.rows[0].age){
-            res.status(403).json({
+        if(!user.rows[0].is_active){
+         return res.status(403).json({
                 success: false,
                 message: "Forbidden!!!"
             })
@@ -59,12 +66,25 @@ const auth = (...roles : any)=>{
 // console.log(req); req : {body : ""}
  //console.log(req); req : {body : "", user:""}
 
+ // const roles = ["admin", "agent", "user"]
+
+ if(roles.length && !roles.includes(user.rows[0].role)){
+      return res.status(401).json({
+            success: false,
+            message: "Unauthorized Access Role!!!"
+        })
+ }
+
  req.user = decode;
+
+ next();
 
 // console.log("user Body:", req.user)
 // console.log(req)
 
-    next();
+    } catch (error) {
+        next(error);
+    }
 
 }
 }
