@@ -6,11 +6,24 @@ import { profileRoute } from "./modules/profile/profile.route";
 import { authRoute } from "./modules/auth/auth.route";
 import fs from "fs";
 import logger from "./middleware/logger";
+import { errorMonitor } from "events";
+import globalErrorHandler from "./middleware/globalErrorHandler";
+import cors from "cors";
 
 
 
 
 const app: Application = express()
+
+//?CORS Origin START
+const corsOptions = {
+    origin: ['http://localhost:3000'],
+    optionsSuccessStatus: 200
+}
+// Adds headers: Access-Control-Allow-Origin: *
+app.use(cors( corsOptions))
+//?CORS Origin END
+
 
  app.use(express.json());
  app.use(express.text());
@@ -108,6 +121,11 @@ app.get('/users', (req, res)=>{
     })
 })
 //?Create User Task END
+
+
+//!Global Error MiddleWare Handler START
+app.use(globalErrorHandler);
+//!Global Error MiddleWare Handler END
 
 export default app;
  
