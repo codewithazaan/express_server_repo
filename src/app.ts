@@ -9,6 +9,8 @@ import logger from "./middleware/logger";
 import { errorMonitor } from "events";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
 
 
 
@@ -23,6 +25,10 @@ const corsOptions = {
 // Adds headers: Access-Control-Allow-Origin: *
 app.use(cors( corsOptions))
 //?CORS Origin END
+
+//!Cookie Middleware START
+app.use(cookieParser())
+//!Cookie Middleware END
 
 
  app.use(express.json());
@@ -126,6 +132,13 @@ app.get('/users', (req, res)=>{
 //!Global Error MiddleWare Handler START
 app.use(globalErrorHandler);
 //!Global Error MiddleWare Handler END
+
+//!Red Comment
+//?Blue Comment
+//*Green Comment
+//todo  Orange Comment
+
+
 
 export default app;
  

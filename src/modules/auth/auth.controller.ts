@@ -4,7 +4,17 @@ import { authService } from "./auth.service";
 const loginUser = async(req : Request, res : Response) =>{
     try {
 
-          const result = await authService.loginUserIntoDB(req.body)
+          const result = await authService.loginUserIntoDB(req.body);
+
+          const{refreshToken} = result;
+
+          res.cookie("refreshToken", refreshToken, {
+            secure: false,
+            httpOnly: true,
+            sameSite: "lax",
+            path: '/',
+            domain: "localhost"
+          })
 
             res.status(200).json({
             success: true,
@@ -22,6 +32,33 @@ const loginUser = async(req : Request, res : Response) =>{
     }
 
 }
+
+//!Get Refresh Token By Cookies in server and create AC Token START 
+const generateNewAccessToken = async(req : Request, res: Response)=>{
+
+    console.log("Cookies:", req.cookies.refreshToken)
+
+    try {
+
+            res.status(200).json({
+            success: true,
+            message: "User Login Successfully with NAC Token!!!",
+        })
+        
+        
+    }  catch (error : any) {
+
+        res.status(500).json({
+            success: false,
+            message: error?.message,
+            error: error
+        })
+    }
+
+}
+//!Get Refresh Token By Cookies in server and create AC Token END
+
 export const authController = {
-    loginUser
+    loginUser, 
+    generateNewAccessToken
 }
