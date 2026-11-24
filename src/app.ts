@@ -34,6 +34,7 @@ app.use(cookieParser())
  app.use(express.json());
  app.use(express.text());
  app.use(express.urlencoded({extended: true}))
+ 
  //!CUSTOM MIDDLEWARE Creation START
 app.use(logger);
  //!CUSTOM MIDDLEWARE Creation END
