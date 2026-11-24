@@ -34,17 +34,19 @@ const loginUser = async(req : Request, res : Response) =>{
 }
 
 //!Get Refresh Token By Cookies in server and create AC Token START 
-const generateNewAccessToken = async(req : Request, res: Response)=>{
+const getRefreshToken = async(req : Request, res: Response)=>{
 
     console.log("Cookies:", req.cookies.refreshToken)
 
+     const result = await authService.generateNewAccessToken(req.cookies.refreshToken);
+
     try {
 
-            res.status(200).json({
+            res.status(201).json({
             success: true,
-            message: "User Login Successfully with NAC Token!!!",
+            message: "Generate New Access Token Successfully!!!",
+            data: result
         })
-        
         
     }  catch (error : any) {
 
@@ -60,5 +62,5 @@ const generateNewAccessToken = async(req : Request, res: Response)=>{
 
 export const authController = {
     loginUser, 
-    generateNewAccessToken
+  getRefreshToken
 }
